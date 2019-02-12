@@ -2,6 +2,7 @@ import pandas as pd
 import generate_experimentId
 import group_plot
 
+
 def plot_measurementdata(DataFilePath, ConditionFilePath, legend='experiment'):
     '''
     plot measurement data grouped by variable ID
@@ -27,7 +28,8 @@ def plot_measurementdata(DataFilePath, ConditionFilePath, legend='experiment'):
         ConditionFilePath, sep="\t")
     # check if there is experimentId in the data frame, if not, generate
     if not hasattr(measurement_data, 'experimentId'):
-        measurement_data = generate_experimentId.generate_experimentId(measurement_data)
+        measurement_data = generate_experimentId.generate_experimentId(
+            measurement_data)
         print('experimentId does not exist, generating!')
 
     ax = group_plot.group_plot(measurement_data, experimental_condition,

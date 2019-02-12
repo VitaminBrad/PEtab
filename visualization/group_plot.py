@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def group_plot(data_frame, condition, axis=None, legend=None):
     '''
     plot simulation data grouped by variable ID
@@ -108,5 +109,4 @@ def group_plot(data_frame, condition, axis=None, legend=None):
             fig.suptitle(val_uniexp)
 
         plot_axis[i_uniexp] = ax
-
     return plot_axis

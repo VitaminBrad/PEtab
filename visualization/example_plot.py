@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 
 DataFilePath = "https://raw.githubusercontent.com/LoosC/Benchmark-Models/" \
                "hackathon/hackathon_contributions_new_data_format/" \
-               "Fujita_SciSignal2010/measurementData_Brannmark_JBC2010.tsv"
+               "Brannmark_JBC2010/measurementData_Brannmark_JBC2010.tsv"
 
 ConditionFilePath = "https://raw.githubusercontent.com/LoosC/" \
                     "Benchmark-Models/hackathon/hackathon_contributions_" \
-                    "new_data_format/Fujita_SciSignal2010/" \
+                    "new_data_format/Brannmark_JBC2010/" \
                     "experimentalCondition_Brannmark_JBC2010.tsv"
 
 ax = plot_measurement.plot_measurementdata(DataFilePath, ConditionFilePath)
