@@ -1,7 +1,24 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def group_plot(data_frame, condition, axis=None):
+def group_plot(data_frame, condition, axis=None, legend=None):
+    '''
+    plot simulation data grouped by variable ID
+
+    Parameters:
+    ----------
+
+    data_frame: panda data frame contains defined data format
+    condition: panda data frame contains experimental conditions
+    axis: axis of figures, one for each experimentId, need to be provided if
+    want to plot simulation data on top of experimental data
+    legend: string, legend for plotting
+
+    Return:
+    ----------
+
+    plot_axis: axis of figures
+    '''
     experimentId = np.array(data_frame.experimentId)
     observableId = np.array(data_frame.observableId)
     measurement = np.array(data_frame.measurement)
@@ -37,8 +54,13 @@ def group_plot(data_frame, condition, axis=None):
             ax = axis[i_uniexp]
             if hasattr(ax, 'size'):
                 num_subplot = ax.size
+                if num_subplot == 2:
+                    num_col = 2
+                else:
+                    num_col = len(ax[0])
             else:
                 num_subplot = 1
+                num_col = 1
 
         # check if it is time response or dose response
         indvarId_uniexp = indvarId_uniexp[0]
@@ -48,7 +70,8 @@ def group_plot(data_frame, condition, axis=None):
             # check which values should be the xaxis
             if (indvarId_uniexp == 'time'):
                 xaxis = time_uniexp[ind_uniobs]
-                xaxis_label = 'time'
+                if axis is None:
+                    xaxis_label = 'time'
 
             else:
                 simcon_uniobs = simcon_uniexp[ind_uniobs]
@@ -56,22 +79,33 @@ def group_plot(data_frame, condition, axis=None):
                 xaxis = dose[simcon_uniobs]
                 xaxis_label = indvarId_uniexp
 
+            # if only one subplot in figure
             if (num_subplot == 1):
-                ax.plot(xaxis, measurement_uniobs, 'x')
-                ax.set_xlabel(xaxis_label)
-                ax.set_ylabel('measurement')
+                ax.plot(xaxis, measurement_uniobs, 'x', label=legend)
+                ax.legend()
+                # if axis exists, do not change the labels
+                if axis is None:
+                    ax.set_xlabel(xaxis_label)
+                    ax.set_ylabel('measurement')
+            # if 2 subplots in figure
             elif (num_subplot == 2):
-                ax[i_uniobs].plot(xaxis, measurement_uniobs, 'x')
-                ax[i_uniobs].set_xlabel(xaxis_label)
-                ax[i_uniobs].set_ylabel('measurement')
+                ax[i_uniobs].plot(xaxis, measurement_uniobs, 'x', label=legend)
+                ax[i_uniobs].legend()
+                if axis is None:
+                    ax[i_uniobs].set_xlabel(xaxis_label)
+                    ax[i_uniobs].set_ylabel('measurement')
+            # if more than 2 subplots
             else:
                 axx = np.ceil(i_uniobs / num_col) - 1
                 axy = i_uniobs - axx * num_col - 1
-                ax[axx, axy].plot(xaxis, measurement_uniobs, 'x')
-                ax[axx, axy].set_xlabel(xaxis_label)
-                ax[axx, axy].set_ylabel('measurement')
+                ax[axx, axy].plot(xaxis, measurement_uniobs, 'x', label=legend)
+                ax[axx, axy].legend()
+                if axis is None:
+                    ax[axx, axy].set_xlabel(xaxis_label)
+                    ax[axx, axy].set_ylabel('measurement')
 
-        fig.suptitle(val_uniexp)
+        if axis is None:
+            fig.suptitle(val_uniexp)
 
         plot_axis[i_uniexp] = ax
 

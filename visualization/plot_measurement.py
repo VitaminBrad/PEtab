@@ -1,10 +1,8 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import generate_experimentId
 import group_plot
 
-def plot_measurementdata(DataFilePath, ConditionFilePath):
+def plot_measurementdata(DataFilePath, ConditionFilePath, legend='experiment'):
     '''
     plot measurement data grouped by variable ID
 
@@ -13,11 +11,12 @@ def plot_measurementdata(DataFilePath, ConditionFilePath):
 
     DataFilePath: string, file path of measurement data
     ConditionFilePath: string, file path of condition file
+    legend: sting, legend for plotted data
 
     Return:
     ----------
 
-    axis: axis of figures
+    ax: axis of figures
     '''
 
     # import measurement data
@@ -31,5 +30,6 @@ def plot_measurementdata(DataFilePath, ConditionFilePath):
         measurement_data = generate_experimentId.generate_experimentId(measurement_data)
         print('experimentId does not exist, generating!')
 
-    ax = group_plot.group_plot(measurement_data, experimental_condition)
+    ax = group_plot.group_plot(measurement_data, experimental_condition,
+                               legend=legend)
     return ax
